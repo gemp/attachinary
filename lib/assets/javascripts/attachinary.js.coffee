@@ -5,7 +5,8 @@
     config:
       disableWith: 'Uploading...'
       indicateProgress: true
-      invalidFormatMessage: 'Invalid file format'
+      invalidFormatMessage: 'Format de fichier invalide...'
+      invalidSizeMessage: 'Le fichier est trop gros, maximum _SIZE_Ko.'
       template: """
         <ul>
           <% for(var i=0; i<files.length; i++){ %>
@@ -67,6 +68,8 @@
       if @$input.attr('accept')
         options.acceptFileTypes = new RegExp("^#{@$input.attr('accept').split(",").join("|")}$", "i")
 
+      options.max_size = @$input.attr('max_size')
+
       @$input.fileupload(options)
 
     bindEventHandlers: ->
@@ -115,13 +118,17 @@
 
 
     addFile: (file) ->
-      if !@options.accept || $.inArray(file.format, @options.accept) != -1  || $.inArray(file.resource_type, @options.accept) != -1
-        @files.push file
-        @redraw()
-        @checkMaximum()
-        @$input.trigger 'attachinary:fileadded', [file]
+      if @options.max_size && file.bytes > @options.max_size * 1024 # KB
+        alert @config.invalidSizeMessage.replace('_SIZE_', @options.max_size)
       else
-        alert @config.invalidFormatMessage
+        accept = @options.accept
+        if !accept || $.inArray(file.format, accept) != -1 || $.inArray(file.resource_type, accept) != -1
+          @files.push file
+          @redraw()
+          @checkMaximum()
+          @$input.trigger 'attachinary:fileadded', [file]
+        else
+          @config.invalidFormatMessage
 
     removeFile: (fileIdToRemove) ->
       _files = []
