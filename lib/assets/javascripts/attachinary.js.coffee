@@ -98,7 +98,7 @@
       @$input.bind 'fileuploadstart', (event) =>
         # important! changed on every file upload
         @$input = $(event.target)
-        $('#attachinary-progress').addClass('active')
+        $('#attachinary-progress').addClass('active').find('.bar').css('width', '0%')
 
 
       @$input.bind 'fileuploadalways', (event) =>
