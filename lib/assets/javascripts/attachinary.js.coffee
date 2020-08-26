@@ -91,11 +91,14 @@
 
       @$input.bind 'fileuploaddone', (event, data) =>
         @addFile(data.result)
+        $('#attachinary-progress').removeClass('active')
+
 
 
       @$input.bind 'fileuploadstart', (event) =>
         # important! changed on every file upload
         @$input = $(event.target)
+        $('#attachinary-progress').addClass('active')
 
 
       @$input.bind 'fileuploadalways', (event) =>
@@ -115,6 +118,8 @@
         progress = parseInt(data.loaded / data.total * 100, 10)
         if @config.disableWith && @config.indicateProgress
           @$submit.val "[#{progress}%] #{@config.disableWith}"
+          $('#attachinary-progress .bar').css
+            width: progress + '%'
 
 
     addFile: (file) ->
