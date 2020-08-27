@@ -17,7 +17,7 @@
                 <audio src="<%= $.cloudinary.url(files[i].public_id, { "version": files[i].version, "resource_type": 'video', "format": 'mp3'}) %>" controls />
               <% } else { %>
                 <img
-                  src="<%= $.cloudinary.url(files[i].public_id, { "version": files[i].version, "format": 'jpg', "crop": 'fill', "width": 240, "height": 320 }) %>"
+                  src="<%= $.cloudinary.url(files[i].public_id, { "version": files[i].version, "format": 'jpg', "crop": 'fill', "width": 240, "height": 320, "gravity": 'face' }) %>"
                   alt="" width="240" height="320" />
               <% } %>
               <a href="#" data-remove="<%= files[i].public_id %>">Remove</a>
